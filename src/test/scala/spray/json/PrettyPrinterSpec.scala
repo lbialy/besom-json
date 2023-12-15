@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import scala.collection.immutable.ListMap
 import org.specs2.mutable._

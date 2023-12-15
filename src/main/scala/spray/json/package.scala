@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package spray
+package besom
+
+import scala.language.implicitConversions
 
 package object json {
 

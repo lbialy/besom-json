@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import org.specs2.mutable._
 
@@ -58,7 +58,7 @@ class AdditionalFormatsSpec extends Specification {
   case class Foo(id: Long, name: String, foos: Option[List[Foo]] = None)
 
   object FooProtocol extends DefaultJsonProtocol {
-    implicit val fooProtocol: JsonFormat[Foo] = lazyFormat(jsonFormat(Foo.apply, "id", "name", "foos"))
+    implicit val fooProtocol: JsonFormat[Foo] = lazyFormat(jsonFormatN[Foo])
   }
 
   "The lazyFormat wrapper" should {

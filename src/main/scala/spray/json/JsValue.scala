@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import collection.immutable
 import scala.collection.immutable.TreeMap
@@ -51,7 +51,7 @@ sealed abstract class JsValue {
  */
 case class JsObject(fields: Map[String, JsValue]) extends JsValue {
   override def asJsObject(errorMsg: String) = this
-  def getFields(fieldNames: String*): immutable.Seq[JsValue] = fieldNames.toIterator.flatMap(fields.get).toList
+  def getFields(fieldNames: String*): immutable.Seq[JsValue] = fieldNames.iterator.flatMap(fields.get).toList
 }
 object JsObject {
   val empty = JsObject(TreeMap.empty[String, JsValue])

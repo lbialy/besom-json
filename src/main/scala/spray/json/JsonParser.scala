@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import scala.annotation.{switch, tailrec}
 import java.lang.{StringBuilder => JStringBuilder}
 import java.nio.{ByteBuffer, CharBuffer}
 import java.nio.charset.Charset
 
+import scala.language.implicitConversions
 import scala.collection.immutable.TreeMap
 
 /**
@@ -231,7 +232,7 @@ class JsonParser(input: ParserInput, settings: JsonParserSettings = JsonParserSe
       s"Unexpected $unexpected at input index $cursor (line $lineNr, position $col), expected $expected"
     }
     val detail = {
-      val sanitizedText = text.map(c ⇒ if (Character.isISOControl(c)) '?' else c)
+      val sanitizedText = text.map(c => if (Character.isISOControl(c)) '?' else c)
       s"\n$sanitizedText\n${" " * (col-1)}^\n"
     }
     throw new ParsingException(summary, detail)

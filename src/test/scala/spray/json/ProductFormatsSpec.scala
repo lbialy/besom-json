@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import org.specs2.mutable._
 
@@ -33,13 +33,13 @@ class ProductFormatsSpec extends Specification {
 
   trait TestProtocol {
     this: DefaultJsonProtocol =>
-    implicit val test0Format: JsonFormat[Test0] = jsonFormat0(Test0)
-    implicit val test2Format: JsonFormat[Test2] = jsonFormat2(Test2)
-    implicit def test3Format[A: JsonFormat, B: JsonFormat]: JsonFormat[Test3[A, B]] = jsonFormat2(Test3.apply[A, B])
-    implicit def test4Format: JsonFormat[Test4] = jsonFormat1(Test4)
-    implicit def testTransientFormat: JsonFormat[TestTransient] = jsonFormat2(TestTransient)
-    implicit def testStaticFormat: JsonFormat[TestStatic] = jsonFormat2(TestStatic)
-    implicit def testMangledFormat: JsonFormat[TestMangled] = jsonFormat5(TestMangled)
+    implicit val test0Format: JsonFormat[Test0] = jsonFormatN[Test0]
+    implicit val test2Format: JsonFormat[Test2] = jsonFormatN[Test2]
+    implicit def test3Format[A: JsonFormat, B: JsonFormat]: RootJsonFormat[Test3[A, B]] = jsonFormatN[Test3[A, B]]
+    implicit def test4Format: JsonFormat[Test4] = jsonFormatN[Test4]
+    implicit def testTransientFormat: JsonFormat[TestTransient] = jsonFormatN[TestTransient]
+    implicit def testStaticFormat: JsonFormat[TestStatic] = jsonFormatN[TestStatic]
+    implicit def testMangledFormat: JsonFormat[TestMangled] = jsonFormatN[TestMangled]
   }
   object TestProtocol1 extends DefaultJsonProtocol with TestProtocol
   object TestProtocol2 extends DefaultJsonProtocol with TestProtocol with NullOptions
@@ -71,16 +71,18 @@ class ProductFormatsSpec extends Specification {
       JsObject("b" -> JsNumber(4.2), "a" -> JsNumber(42)).convertTo[Test2] mustEqual obj
     }
     "throw a DeserializationException if the JsValue is not a JsObject" in (
-      JsNull.convertTo[Test2] must throwA(new DeserializationException("Object expected in field 'a'"))
+      JsNull.convertTo[Test2] must throwA(new DeserializationException("Object expected"))
     )
     "expose the fieldName in the DeserializationException when able" in {
       JsNull.convertTo[Test2] must throwA[DeserializationException].like {
-        case DeserializationException(_, _, fieldNames) => fieldNames mustEqual "a" :: Nil
+        case DeserializationException(_, _, fieldNames) => fieldNames mustEqual "a" :: "b" :: Nil
       }
     }
     "expose all gathered fieldNames in the DeserializationException" in {
       JsObject("t2" -> JsObject("a" -> JsString("foo"))).convertTo[Test4] must throwA[DeserializationException].like {
-        case DeserializationException(_, _, fieldNames) => fieldNames mustEqual "t2" :: "a" :: Nil
+        case DeserializationException(msg, _, fieldNames) => 
+          println(msg)
+          fieldNames mustEqual "t2" :: "a" :: Nil
       }
     }
   }
@@ -108,7 +110,7 @@ class ProductFormatsSpec extends Specification {
   }
   "A JsonFormat for a case class with 18 parameters and created with `jsonFormat`" should {
     object Test18Protocol extends DefaultJsonProtocol {
-      implicit val test18Format: JsonFormat[Test18] = jsonFormat18(Test18)
+      implicit val test18Format: JsonFormat[Test18] = jsonFormatN[Test18]
     }
     case class Test18(
       a1: String,
@@ -147,7 +149,7 @@ class ProductFormatsSpec extends Specification {
     "support the jsonFormat1 syntax" in {
       case class Box[A](a: A)
       object BoxProtocol extends DefaultJsonProtocol {
-        implicit val boxFormat: JsonFormat[Box[Int]] = jsonFormat1(Box[Int])
+        implicit val boxFormat: JsonFormat[Box[Int]] = jsonFormatN[Box[Int]]
       }
       import BoxProtocol._
       Box(42).toJson === JsObject(Map("a" -> JsNumber(42)))

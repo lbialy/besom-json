@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 /**
   * Provides additional JsonFormats and helpers

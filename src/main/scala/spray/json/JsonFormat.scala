@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import annotation.implicitNotFound
+import scala.language.implicitConversions
 
 /**
   * Provides the JSON deserialization for type T.

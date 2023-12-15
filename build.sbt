@@ -16,7 +16,7 @@ startYear := Some(2011)
 
 licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-scalacOptions ++= Seq("-feature", "-language:_", "-unchecked", "-deprecation", "-Xlint", "-encoding", "utf8")
+scalacOptions ++= Seq("-feature", "-language:_", "-unchecked", "-deprecation", "-encoding", "utf8")
 
 resolvers += Opts.resolver.sonatypeReleases
 
@@ -42,7 +42,7 @@ libraryDependencies ++= (CrossVersion.partialVersion(scalaVersion.value) match {
 (scalacOptions in doc) ++= Seq("-doc-title", name.value + " " + version.value)
 
 // generate boilerplate
-enablePlugins(BoilerplatePlugin)
+// enablePlugins(BoilerplatePlugin)
 
 // OSGi settings
 enablePlugins(SbtOsgi)
@@ -79,7 +79,7 @@ mimaBinaryIssueFilters := Seq(
 // publishing
 ///////////////
 
-crossScalaVersions := Seq("2.12.12", "2.10.7", "2.11.12", "2.13.3", "3.1.0")
+scalaVersion := "3.3.0"
 
 publishMavenStyle := true
 

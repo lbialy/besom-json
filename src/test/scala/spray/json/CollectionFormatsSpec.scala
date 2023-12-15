@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import org.specs2.mutable._
 import java.util.Arrays

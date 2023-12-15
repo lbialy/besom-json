@@ -1,4 +1,4 @@
-package spray.json
+package besom.json
 
 /**
  * Allows to customize settings for the JSON parser.

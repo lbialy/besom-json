@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 trait SortedPrinter extends PrettyPrinter {
 

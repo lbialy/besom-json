@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 /**
   * Provides the JsonFormats for the most important Scala types.

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import scala.reflect.ClassTag
 
@@ -27,7 +27,7 @@ trait CollectionFormats {
   implicit def listFormat[T :JsonFormat]: RootJsonFormat[List[T]] = new RootJsonFormat[List[T]] {
     def write(list: List[T]) = JsArray(list.map(_.toJson).toVector)
     def read(value: JsValue): List[T] = value match {
-      case JsArray(elements) => elements.toIterator.map(_.convertTo[T]).toList
+      case JsArray(elements) => elements.iterator.map(_.convertTo[T]).toList
       case x => deserializationError("Expected List as JsArray, but got " + x)
     }
   }
@@ -45,7 +45,7 @@ trait CollectionFormats {
   
   /**
     * Supplies the JsonFormat for Maps. The implicitly available JsonFormat for the key type K must
-    * always write JsStrings, otherwise a [[spray.json.SerializationException]] will be thrown.
+    * always write JsStrings, otherwise a [[besom.json.SerializationException]] will be thrown.
    */
   implicit def mapFormat[K :JsonFormat, V :JsonFormat]: RootJsonFormat[Map[K, V]] = new RootJsonFormat[Map[K, V]] {
     def write(m: Map[K, V]) = JsObject {

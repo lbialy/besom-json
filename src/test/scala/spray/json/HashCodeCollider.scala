@@ -1,4 +1,4 @@
-package spray.json
+package besom.json
 
 /**
  * Helper that creates strings that all share the same hashCode == 0.
@@ -8,8 +8,8 @@ package spray.json
  */
 object HashCodeCollider {
   val visibleChars = (33 until 127).filterNot(c => c == '\\' || c == '"')
-  def asciiChars: Iterator[Int] = visibleChars.toIterator
-  def asciiCharsAndHash(previousHash: Int): Iterator[(Int, Int)] = visibleChars.toIterator.map(c => c -> (previousHash + c) * 31)
+  def asciiChars: Iterator[Int] = visibleChars.iterator
+  def asciiCharsAndHash(previousHash: Int): Iterator[(Int, Int)] = visibleChars.iterator.map(c => c -> (previousHash + c) * 31)
 
   /** Creates an iterator of Strings that all have hashCode == 0 */
   def zeroHashCodeIterator(): Iterator[String] =

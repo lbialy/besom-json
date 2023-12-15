@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package spray.json
+package besom.json
 
 import scala.{Left, Right}
 
