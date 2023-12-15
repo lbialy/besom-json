@@ -53,6 +53,9 @@ object JsonWriter {
  */
 trait JsonFormat[T] extends JsonReader[T] with JsonWriter[T]
 
+object JsonFormat:
+  inline def derived[T <: Product](using JsonProtocol) = summon[JsonProtocol].jsonFormatN[T]
+
 /**
  * A special JsonReader capable of reading a legal JSON root object, i.e. either a JSON array or a JSON object.
  */
